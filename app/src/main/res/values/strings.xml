@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Inspirational Quotes</string>
+    <string name="placeholder_quote">\"In skating over thin ice our safety is in our speed.\"</string>
+    <string name="placeholder_author"><u>Ralph Emerson</u></string>
+    <string name="notify_daily">Daily notifications</string>
+    <string name="next">more</string>
+    <string name="previous">back</string>
+</resources>

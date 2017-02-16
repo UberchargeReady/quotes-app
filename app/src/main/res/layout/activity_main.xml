@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.dyejeekis.quotesapp.MainActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout_quote"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:gravity="right|end">
+
+        <TextView
+            android:text="@string/placeholder_quote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView_quote"
+            style="@style/QuoteTextStyle" />
+
+        <TextView
+            android:text="@string/placeholder_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView_author"
+            style="@style/AuthorTextStyle"
+            android:layout_marginTop="2dp" />
+    </LinearLayout>
+
+    <CheckBox
+        android:text="@string/notify_daily"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/checkBox_daily_quotes"
+        style="@style/NotifyDailyStyle"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="4dp"
+        app:fabSize="normal"
+        android:src="@drawable/ic_share_white_36dp"
+        tools:ignore="RelativeOverlap,UnusedAttribute"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout_nav"
+        android:layout_above="@+id/fab_share"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="64dp">
+
+        <Button
+            android:text="@string/previous"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_previous"
+            android:layout_weight="1"
+            style="@style/ButtonPreviousStyle"
+            android:enabled="false"/>
+
+        <Button
+            android:text="@string/next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_next"
+            android:layout_weight="1"
+            style="@style/ButtonNextStyle"/>
+    </LinearLayout>
+
+</RelativeLayout>
