@@ -1,5 +1,7 @@
 package com.dyejeekis.quotesapp;
 
+import android.content.Context;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,6 +23,11 @@ public class QuoteRetrieval {
 
     public static final String RANDOM_QUOTE_ENDPOINT = "?method=getQuote&lang=en&format=json";
 
+    /**
+     * runs asynchronously on main activity
+     * @param activity
+     * @param client
+     */
     public static void randomQuote(final MainActivity activity, OkHttpClient client) {
         Request request = new Request.Builder().url(BASE_URL + RANDOM_QUOTE_ENDPOINT).build();
 
@@ -41,6 +48,16 @@ public class QuoteRetrieval {
                 }
             }
         });
+    }
+
+    /**
+     * runs synchronously
+     * @param client
+     * @return
+     */
+    public static Quote randomQuote(OkHttpClient client) throws IOException, JSONException {
+        Request request = new Request.Builder().url(BASE_URL + RANDOM_QUOTE_ENDPOINT).build();
+        return parseResponse(client.newCall(request).execute());
     }
 
     public static Quote parseResponse(Response response) throws IOException, JSONException {

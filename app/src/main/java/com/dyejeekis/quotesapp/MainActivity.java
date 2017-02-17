@@ -1,7 +1,11 @@
 package com.dyejeekis.quotesapp;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,9 +17,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fabShare.setOnClickListener(this);
         buttonNext.setOnClickListener(this);
         buttonPrevious.setOnClickListener(this);
+        checkBoxDaily.setChecked(PreferenceManager.getDefaultSharedPreferences(this).getBoolean("dailyQuotes", false));
         checkBoxDaily.setOnCheckedChangeListener(this);
 
         okHttpClient = new OkHttpClient();
@@ -80,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else if(v.getId() == R.id.textView_author) {
             try {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(getCurrentQuote().getAuthorWikiUrl())));
+                startActivity(getCurrentQuote().getAuthorWikiIntent());
             } catch (Exception e) {
                 e.printStackTrace();
                 Util.displayShortToast(this, "Error creating wiki URL");
@@ -122,7 +125,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if(buttonView.getId() == R.id.checkBox_daily_quotes) {
-            // TODO: 2/16/2017
+            setDailyQuotesActive(isChecked);
+        }
+    }
+
+    private void setDailyQuotesActive(boolean flag) {
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+        editor.putBoolean("dailyQuotes", flag);
+        editor.apply();
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Intent intent = new Intent(this, QuoteService.class);
+        PendingIntent pendingIntent = PendingIntent.getService(this, QuoteService.DAILY_QUOTE_REQUEST_CODE,
+                intent, PendingIntent.FLAG_ONE_SHOT);
+        if(flag) {
+            alarmManager.setRepeating(AlarmManager.RTC, System.currentTimeMillis() + AlarmManager.INTERVAL_DAY, AlarmManager.INTERVAL_DAY, pendingIntent);
+        }
+        else {
+            alarmManager.cancel(pendingIntent);
         }
     }
 }

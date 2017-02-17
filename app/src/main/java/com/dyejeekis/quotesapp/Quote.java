@@ -1,6 +1,7 @@
 package com.dyejeekis.quotesapp;
 
 import android.content.Intent;
+import android.net.Uri;
 
 /**
  * Created by George on 2/16/2017.
@@ -37,5 +38,9 @@ public class Quote {
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, getCompleteQuote());
         return Intent.createChooser(intent, "Share via");
+    }
+
+    public Intent getAuthorWikiIntent() {
+        return new Intent(Intent.ACTION_VIEW, Uri.parse(getAuthorWikiUrl()));
     }
 }
