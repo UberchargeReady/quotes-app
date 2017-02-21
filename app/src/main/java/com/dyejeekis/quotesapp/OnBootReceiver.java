@@ -14,12 +14,9 @@ import android.preference.PreferenceManager;
 public class OnBootReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        if(PreferenceManager.getDefaultSharedPreferences(context).getBoolean("dailyQuotes", false)) {
-            AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            Intent quoteIntent = new Intent(context, QuoteService.class);
-            PendingIntent pendingIntent = PendingIntent.getService(context, QuoteService.DAILY_QUOTE_REQUEST_CODE,
-                    quoteIntent, PendingIntent.FLAG_ONE_SHOT);
-            alarmManager.setRepeating(AlarmManager.RTC, System.currentTimeMillis() + AlarmManager.INTERVAL_FIFTEEN_MINUTES, AlarmManager.INTERVAL_DAY, pendingIntent);
+        boolean flag = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("dailyQuotes", false);
+        if(flag) {
+            Util.setDailyQuotesActive(context, true);
         }
     }
 }

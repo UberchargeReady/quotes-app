@@ -125,23 +125,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if(buttonView.getId() == R.id.checkBox_daily_quotes) {
-            setDailyQuotesActive(isChecked);
+            Util.setDailyQuotesActive(this, isChecked);
         }
     }
 
-    private void setDailyQuotesActive(boolean flag) {
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-        editor.putBoolean("dailyQuotes", flag);
-        editor.apply();
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        Intent intent = new Intent(this, QuoteService.class);
-        PendingIntent pendingIntent = PendingIntent.getService(this, QuoteService.DAILY_QUOTE_REQUEST_CODE,
-                intent, PendingIntent.FLAG_ONE_SHOT);
-        if(flag) {
-            alarmManager.setRepeating(AlarmManager.RTC, System.currentTimeMillis() + AlarmManager.INTERVAL_DAY, AlarmManager.INTERVAL_DAY, pendingIntent);
-        }
-        else {
-            alarmManager.cancel(pendingIntent);
-        }
-    }
 }
