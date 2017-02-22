@@ -15,18 +15,18 @@ import android.widget.Toast;
 
 public class Util {
 
+    /**
+     * only run on ui thread
+     * @param activity
+     * @param text
+     */
     public static void displayShortToast(final Activity activity, final String text) {
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Toast toast = Toast.makeText(activity, text, Toast.LENGTH_SHORT);
-                    toast.show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        try {
+            Toast toast = Toast.makeText(activity, text, Toast.LENGTH_SHORT);
+            toast.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void setDailyQuotesActive(Context context, boolean flag) {

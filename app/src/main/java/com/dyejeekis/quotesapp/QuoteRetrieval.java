@@ -66,14 +66,14 @@ public class QuoteRetrieval {
         return new Quote(jsonObject.getString("quoteText").trim(), jsonObject.getString("quoteAuthor").trim());
     }
 
-    private static void retrievalError(final MainActivity activity, String reason) {
+    private static void retrievalError(final MainActivity activity, final String reason) {
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 activity.setProgressBarVisible(false);
+                Util.displayShortToast(activity, reason);
             }
         });
-        Util.displayShortToast(activity, reason);
     }
 
 }

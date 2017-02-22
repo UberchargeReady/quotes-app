@@ -61,20 +61,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void addQuote(final  Quote quote) {
         quoteList.add(quote);
         currentKey = quoteList.size()-1;
-        updateQuote(getCurrentQuote());
+        updateQuoteMainThread(getCurrentQuote());
     }
 
+    /**
+     * only run on ui thread
+     * @param newQuote
+     */
     public void updateQuote(final Quote newQuote) {
+        setProgressBarVisible(false);
+        textQuote.setText(newQuote.getQuoteText());
+        SpannableString authorSpannable = new SpannableString(newQuote.getQuoteAuthor());
+        authorSpannable.setSpan(new UnderlineSpan(), 0, newQuote.getQuoteAuthor().length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        textAuthor.setText(authorSpannable);
+        textAuthor.setOnClickListener(MainActivity.this);
+        buttonPrevious.setEnabled(currentKey > 0);
+    }
+
+    public void updateQuoteMainThread(final Quote newQuote) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                setProgressBarVisible(false);
-                textQuote.setText(newQuote.getQuoteText());
-                SpannableString authorSpannable = new SpannableString(newQuote.getQuoteAuthor());
-                authorSpannable.setSpan(new UnderlineSpan(), 0, newQuote.getQuoteAuthor().length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-                textAuthor.setText(authorSpannable);
-                textAuthor.setOnClickListener(MainActivity.this);
-                buttonPrevious.setEnabled(currentKey > 0);
+                updateQuote(newQuote);
             }
         });
     }
