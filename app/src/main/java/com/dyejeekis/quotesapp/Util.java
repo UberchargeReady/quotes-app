@@ -36,7 +36,7 @@ public class Util {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, QuoteService.class);
         PendingIntent pendingIntent = PendingIntent.getService(context, QuoteService.DAILY_QUOTE_REQUEST_CODE,
-                intent, PendingIntent.FLAG_ONE_SHOT);
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
         if(flag) {
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 60 * 1000, AlarmManager.INTERVAL_DAY, pendingIntent);
         }
