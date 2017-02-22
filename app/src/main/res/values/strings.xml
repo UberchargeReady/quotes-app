@@ -5,4 +5,8 @@
     <string name="notify_daily">Daily notifications</string>
     <string name="next">more</string>
     <string name="previous">back</string>
+
+    <string name="admob_app_id">ca-app-pub-3802528033644394~7845665869</string>
+    <string name="banner_ad_unit_id_test">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="banner_ad_unit_id">ca-app-pub-3802528033644394/1799132260</string>
 </resources>

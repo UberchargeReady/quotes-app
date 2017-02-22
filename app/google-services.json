@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "727392984372",
+    "firebase_url": "https://inspirational-quotes-4b13a.firebaseio.com",
+    "project_id": "inspirational-quotes-4b13a",
+    "storage_bucket": "inspirational-quotes-4b13a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:727392984372:android:4481a3cb49b15f93",
+        "android_client_info": {
+          "package_name": "com.dyejeekis.quotesapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "727392984372-h4187s0hgompj51kj5j0iihjokdj7leq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtpJ3BtVzKDPeO8oDnroDL2LPJ8kh15OI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

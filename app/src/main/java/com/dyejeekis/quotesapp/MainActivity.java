@@ -19,6 +19,10 @@ import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @BindView(R.id.button_previous) Button buttonPrevious;
     @BindView(R.id.checkBox_daily_quotes) CheckBox checkBoxDaily;
     @BindView(R.id.progressBar) ProgressBar progressBar;
+    @BindView(R.id.adView) AdView adView;
 
     private OkHttpClient okHttpClient;
     private int currentKey;
@@ -44,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        MobileAds.initialize(this, getResources().getString(R.string.admob_app_id));
         ButterKnife.bind(this);
 
         fabShare.setOnClickListener(this);
@@ -51,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonPrevious.setOnClickListener(this);
         checkBoxDaily.setChecked(PreferenceManager.getDefaultSharedPreferences(this).getBoolean("dailyQuotes", false));
         checkBoxDaily.setOnCheckedChangeListener(this);
+        adView.loadAd(new AdRequest.Builder().build());
 
         okHttpClient = new OkHttpClient();
         quoteList = new ArrayList<>();
