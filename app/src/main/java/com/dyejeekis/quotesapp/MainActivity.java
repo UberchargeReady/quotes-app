@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @BindView(R.id.button_next) Button buttonNext;
     @BindView(R.id.button_previous) Button buttonPrevious;
     @BindView(R.id.checkBox_daily_quotes) CheckBox checkBoxDaily;
+    @BindView(R.id.progressBar) ProgressBar progressBar;
 
     private OkHttpClient okHttpClient;
     private int currentKey;
@@ -66,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                setProgressBarVisible(false);
                 textQuote.setText(newQuote.getQuoteText());
                 SpannableString authorSpannable = new SpannableString(newQuote.getQuoteAuthor());
                 authorSpannable.setSpan(new UnderlineSpan(), 0, newQuote.getQuoteAuthor().length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
@@ -115,7 +118,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void randomQuote() {
+        setProgressBarVisible(true);
         QuoteRetrieval.randomQuote(this, okHttpClient);
+    }
+
+    public void setProgressBarVisible(boolean flag) {
+        progressBar.setVisibility(flag ? View.VISIBLE : View.GONE);
     }
 
     private Quote getCurrentQuote() {
