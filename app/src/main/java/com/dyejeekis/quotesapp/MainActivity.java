@@ -122,8 +122,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         QuoteRetrieval.randomQuote(this, okHttpClient);
     }
 
-    public void setProgressBarVisible(boolean flag) {
+    private void setProgressBarVisible(boolean flag) {
         progressBar.setVisibility(flag ? View.VISIBLE : View.GONE);
+    }
+
+    public void quoteRetrievalError() {
+        setProgressBarVisible(false);
+        Util.displayShortToast(this, "Error retrieving quote");
     }
 
     private Quote getCurrentQuote() {

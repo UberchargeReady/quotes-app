@@ -35,7 +35,7 @@ public class QuoteRetrieval {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
-                Util.displayShortToast(activity, "Error retrieving quote");
+                activity.quoteRetrievalError();
             }
 
             @Override
@@ -44,7 +44,7 @@ public class QuoteRetrieval {
                     activity.addQuote(parseResponse(response));
                 } catch (IOException | JSONException e) {
                     e.printStackTrace();
-                    Util.displayShortToast(activity, "Error parsing quote data");
+                    activity.quoteRetrievalError();
                 }
             }
         });
