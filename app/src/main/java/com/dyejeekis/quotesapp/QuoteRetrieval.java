@@ -35,7 +35,7 @@ public class QuoteRetrieval {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
-                activity.quoteRetrievalError();
+                retrievalError(activity, "Error retrieving quote");
             }
 
             @Override
@@ -44,7 +44,7 @@ public class QuoteRetrieval {
                     activity.addQuote(parseResponse(response));
                 } catch (IOException | JSONException e) {
                     e.printStackTrace();
-                    activity.quoteRetrievalError();
+                    retrievalError(activity, "Error parsing quote data");
                 }
             }
         });
@@ -64,6 +64,16 @@ public class QuoteRetrieval {
         String jsonData = response.body().string();
         JSONObject jsonObject = new JSONObject(jsonData);
         return new Quote(jsonObject.getString("quoteText").trim(), jsonObject.getString("quoteAuthor").trim());
+    }
+
+    private static void retrievalError(final MainActivity activity, String reason) {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                activity.setProgressBarVisible(false);
+            }
+        });
+        Util.displayShortToast(activity, reason);
     }
 
 }
