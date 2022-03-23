@@ -1,4 +1,5 @@
-![unnamed](https://user-images.githubusercontent.com/12243239/159679999-a9d65591-207e-44c8-a70e-5b04186dff78.png)
+<img src="https://user-images.githubusercontent.com/12243239/159679999-a9d65591-207e-44c8-a70e-5b04186dff78.png" width="100" height="100">
+
 # Inspirational Quotes
 
 Small scale android application that displays various quotes from famous and influencial people using simple GET requests from a third-party API. Developed back in 2017
