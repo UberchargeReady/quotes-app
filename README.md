@@ -3,7 +3,7 @@
 # Inspirational Quotes
 
 Small scale android application that displays various quotes from famous and influencial people using simple GET requests from a third-party API. Developed back in 2017
-as a test project, so many android dev techniques and APIs you see here might be outdated.
+as a test project so many android dev techniques and APIs you see here might be outdated.
 
 Features include:
 
