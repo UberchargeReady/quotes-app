@@ -1,6 +1,4 @@
-package com.dyejeekis.quotesapp;
-
-import android.content.Context;
+package com.dyejeekis.inspirationalquotes;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,7 +33,8 @@ public class QuoteRetrieval {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
-                retrievalError(activity, "Error retrieving quote");
+//                retrievalError(activity, "Error retrieving quote");
+                activity.addQuote(null);
             }
 
             @Override
@@ -44,7 +43,8 @@ public class QuoteRetrieval {
                     activity.addQuote(parseResponse(response));
                 } catch (IOException | JSONException e) {
                     e.printStackTrace();
-                    retrievalError(activity, "Error parsing quote data");
+//                    retrievalError(activity, "Error parsing quote data");
+                    activity.addQuote(null);
                 }
             }
         });

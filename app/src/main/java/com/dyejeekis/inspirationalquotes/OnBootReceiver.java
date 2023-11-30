@@ -1,7 +1,5 @@
-package com.dyejeekis.quotesapp;
+package com.dyejeekis.inspirationalquotes;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;

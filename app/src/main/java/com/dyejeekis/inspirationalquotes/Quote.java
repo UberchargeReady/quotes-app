@@ -1,4 +1,4 @@
-package com.dyejeekis.quotesapp;
+package com.dyejeekis.inspirationalquotes;
 
 import android.content.Intent;
 import android.net.Uri;

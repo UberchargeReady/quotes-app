@@ -1,4 +1,4 @@
-package com.dyejeekis.quotesapp;
+package com.dyejeekis.inspirationalquotes;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -7,7 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.view.View;
 import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 /**
  * Created by George on 2/16/2017.
@@ -29,6 +32,15 @@ public class Util {
         }
     }
 
+    public static void displaySnackbar(Activity activity, String text, int duration) {
+        try {
+            View view = activity.getWindow().getDecorView().findViewById(android.R.id.content);
+            Snackbar.make(view, text, duration).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void setDailyQuotesActive(Context context, boolean flag) {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         editor.putBoolean("dailyQuotes", flag);
@@ -37,10 +49,9 @@ public class Util {
         Intent intent = new Intent(context, QuoteService.class);
         PendingIntent pendingIntent = PendingIntent.getService(context, QuoteService.DAILY_QUOTE_REQUEST_CODE,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        if(flag) {
+        if (flag) {
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 60 * 1000, AlarmManager.INTERVAL_DAY, pendingIntent);
-        }
-        else {
+        } else {
             alarmManager.cancel(pendingIntent);
         }
     }

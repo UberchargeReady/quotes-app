@@ -1,13 +1,6 @@
-package com.dyejeekis.quotesapp;
+package com.dyejeekis.inspirationalquotes;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -19,27 +12,25 @@ import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
-    @BindView(R.id.textView_quote) TextView textQuote;
-    @BindView(R.id.textView_author) TextView textAuthor;
-    @BindView(R.id.fab_share) FloatingActionButton fabShare;
-    @BindView(R.id.button_next) Button buttonNext;
-    @BindView(R.id.button_previous) Button buttonPrevious;
-    @BindView(R.id.checkBox_daily_quotes) CheckBox checkBoxDaily;
-    @BindView(R.id.progressBar) ProgressBar progressBar;
-    @BindView(R.id.adView) AdView adView;
+    TextView textQuote;
+    TextView textAuthor;
+    FloatingActionButton fabShare;
+    Button buttonNext;
+    Button buttonPrevious;
+    CheckBox checkBoxDaily;
+    ProgressBar progressBar;
 
     private OkHttpClient okHttpClient;
     private int currentKey;
@@ -49,26 +40,75 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        MobileAds.initialize(this, getResources().getString(R.string.admob_app_id));
-        ButterKnife.bind(this);
+        initViews();
+        initHttpClient();
+        quoteList = new ArrayList<>();
+        currentKey = 0;
+        randomQuote();
+    }
+
+    private void initViews() {
+        textQuote = findViewById(R.id.textView_quote);
+        textAuthor = findViewById(R.id.textView_author);
+        fabShare = findViewById(R.id.fab_share);
+        buttonNext = findViewById(R.id.button_next);
+        buttonPrevious = findViewById(R.id.button_previous);
+        checkBoxDaily = findViewById(R.id.checkBox_daily_quotes);
+        progressBar = findViewById(R.id.progressBar);
 
         fabShare.setOnClickListener(this);
         buttonNext.setOnClickListener(this);
         buttonPrevious.setOnClickListener(this);
         checkBoxDaily.setChecked(PreferenceManager.getDefaultSharedPreferences(this).getBoolean("dailyQuotes", false));
         checkBoxDaily.setOnCheckedChangeListener(this);
-        adView.loadAd(new AdRequest.Builder().build());
-
-        okHttpClient = new OkHttpClient();
-        quoteList = new ArrayList<>();
-        currentKey = 0;
-        randomQuote();
     }
 
-    public void addQuote(final  Quote quote) {
+    private void initHttpClient() {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.level(HttpLoggingInterceptor.Level.BODY);
+        builder.addInterceptor(loggingInterceptor);
+
+        okHttpClient = builder.build();
+    }
+
+    public void addQuote(final Quote quote) {
+        if (checkIsQuoteNull(quote)) return;
+        if (checkIsExistingQuote(quote)) return;
         quoteList.add(quote);
         currentKey = quoteList.size()-1;
         updateQuoteMainThread(getCurrentQuote());
+    }
+
+    private boolean checkIsQuoteNull(final Quote quote) {
+        if (quote == null) {
+            Util.displaySnackbar(
+                    this,
+                    "Oops, something went wrong! Try again maybe?",
+                    Snackbar.LENGTH_SHORT
+            );
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkIsExistingQuote(final Quote newQuote) {
+        try {
+            for (Quote quote : quoteList) {
+                if (quote.getQuoteText().equals(newQuote.getQuoteText())) {
+                    Util.displaySnackbar(
+                            this,
+                            "Looking for new quotes. Give it a sec!",
+                            Snackbar.LENGTH_LONG
+                    );
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            // do nothing
+        }
+        return false;
     }
 
     /**

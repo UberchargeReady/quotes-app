@@ -1,10 +1,11 @@
-package com.dyejeekis.quotesapp;
+package com.dyejeekis.inspirationalquotes;
 
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.support.v7.app.NotificationCompat;
+
+import androidx.core.app.NotificationCompat;
 
 import okhttp3.OkHttpClient;
 
@@ -46,9 +47,9 @@ public class QuoteService extends IntentService {
 
         builder.setContentTitle("Quote of the day")
                 .setSmallIcon(R.drawable.ic_format_quote_white_18dp)
-                .addAction(new android.support.v4.app.NotificationCompat.Action(R.drawable.ic_share_grey_600_24dp, "Share", shareIntent))
-                .addAction(new android.support.v4.app.NotificationCompat.Action(R.drawable.ic_person_grey_600_24dp, "Author", authorIntent))
-                .setStyle(new android.support.v4.app.NotificationCompat.BigTextStyle().bigText(quote.getCompleteQuote()));
+                .addAction(new NotificationCompat.Action(R.drawable.ic_share_grey_600_24dp, "Share", shareIntent))
+                .addAction(new NotificationCompat.Action(R.drawable.ic_person_grey_600_24dp, "Author", authorIntent))
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(quote.getCompleteQuote()));
 
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         manager.notify(QUOTE_NOTIF_ID, builder.build());
