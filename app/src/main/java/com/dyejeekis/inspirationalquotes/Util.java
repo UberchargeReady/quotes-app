@@ -41,15 +41,21 @@ public class Util {
         }
     }
 
-    public static void setDailyQuotesActive(Context context, boolean flag) {
+    public static void setDailyQuotesActive(Context context, boolean isActive) {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
-        editor.putBoolean("dailyQuotes", flag);
+        editor.putBoolean("dailyQuotes", isActive);
         editor.apply();
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, QuoteService.class);
-        PendingIntent pendingIntent = PendingIntent.getService(context, QuoteService.DAILY_QUOTE_REQUEST_CODE,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        if (flag) {
+        int flags = PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE;
+        PendingIntent pendingIntent = PendingIntent.getService(
+                context,
+                QuoteService.DAILY_QUOTE_REQUEST_CODE,
+                intent,
+                flags
+        );
+
+        if (isActive) {
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 60 * 1000, AlarmManager.INTERVAL_DAY, pendingIntent);
         } else {
             alarmManager.cancel(pendingIntent);
