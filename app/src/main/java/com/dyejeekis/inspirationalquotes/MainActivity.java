@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ProgressBar progressBar;
 
     private OkHttpClient okHttpClient;
+    private PlayIntegrityHelper playIntegrityHelper;
     private int currentKey;
     private List<Quote> quoteList;
 
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         initViews();
         initHttpClient();
+        initPlayIntegrity();
         quoteList = new ArrayList<>();
         currentKey = 0;
         randomQuote();
@@ -71,6 +73,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         builder.addInterceptor(loggingInterceptor);
 
         okHttpClient = builder.build();
+    }
+
+    private void initPlayIntegrity() {
+        playIntegrityHelper = new PlayIntegrityHelper(this);
+        playIntegrityHelper.prepareTokenProvider(467253172853L);
     }
 
     public void addQuote(final Quote quote) {
